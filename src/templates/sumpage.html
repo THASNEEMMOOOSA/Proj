@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 order-md-12 mb-4">
+        <h2 class="mb-3">Order Summary</h2>
+
+        <h4 class="mb-3">Cart Details</h4>
+
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between align-items-start lh-condensed">
+              <div>
+                <h3 class="my-0">{{bookpack.title}}</h3>
+                <h4 class="text-muted">Brief description</h4>
+                <h5 class="text-muted">Genre:{{bookpack.genre}}</h5>
+    
+              </div>
+              <span class="text-dark fw-bold mt-2">&#8377;{{bookpack.price}}</span>
+            </li>
+             <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-dark">
+                <h6 class="my-0">Platform charges</h6>
+              </div>
+              <span class="text-dark fw-bold">&#8377;21</span>
+            </li>
+            
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+                <small>EXAMPLECODE</small>
+              </div>
+              <span class="text-success">&#8377;</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total (INR)</span>
+              <strong class="fw-bolder text-success">&#8377;{{total}}</strong>
+            </li>
+          </ul>
+    
+          
+        </div>
+        <h4 class="mb-3">Order Shipping Details</h4>
+
+        <div class="col-md-12 order-md-1 border rounded mb-3 ms-2">
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <h4 class="text-muted fw-semibold">{{ order.name }}</h4>
+              </div>
+            
+            </div>
+    
+           
+    
+            <div class="mb-3">
+             <h5>{{ order.email }}</h5>
+            </div>
+    
+            <div class="mb-3">
+              <h6>{{ order.address1 }}</h6>
+            </div>
+    
+            <div class="mb-3">
+                <h6>{{ order.address2 }}</h6>
+            </div>
+    
+            <div class="row">
+            
+              <div class="col-md-12 mb-3">
+                <h6>{{ order.pin }}</h6>
+                <h6>{{ order.state }}</h6>
+
+
+              </div>
+         
+            </div>
+            <div class="row">
+            
+                <div class="col-md-6 mb-3">
+                  <h5>Email id: {{ order.email }}</h5>
+  
+  
+                </div>
+                <div class="col-md-6 mb-3">
+                 <h5>Mob no: +91{{ order.email }}</h5>
+    
+    
+                  </div>
+           
+              </div>
+            
+            <hr class="mb-4">
+    
+            <h4 class="mb-3">Payment</h4>
+            <div class="mb-3">
+              <h4>Total amount to paid :</h4>
+              <div class="input-group mb-3 ">
+                <span class="input-group-text text-success fw-bold fs-4" id="basic-addon1">&#8377;</span>
+                <input type="number" readonly disabled class="form-control text-success fw-bold fs-4" value="{{total}}"   spellcheck="false" data-ms-editor="true">
+              </div>
+            </div>
+    
+            <hr class="mb-4">
+            <!-- <button   class="btn btn-primary btn-lg btn-block mb-3 razorpay-payment-button"  id="rzp-button1" >Make Payment</button> -->
+            <!-- <button id="rzp-button1">Pay</button> -->
+
+  {% if payment %}
+
+    <form id="payment-form" action="{% url 'payment-status'  %}" method="POST">
+        {% csrf_token %}        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="rzp_test_bYBHeH757vrngg"
+            data-amount="{{payment.amount}}" 
+            data-currency="{{payment.currency}}"
+            data-order_id="{{payment.id}}"
+            data-buttontext="Pay with Razorpay"
+            data-name="Your Coffee Shop"
+            data-description="Payment for your order"
+            data-prefill.name="{{payment.name}}"
+            data-prefill.email="your@example.com"
+            data-theme.color="#F37254"
+        ></script>
+        <script>
+          const b=document.querySelector('.razorpay-payment-button');
+          b.setAttribute('class','razorpay-payment-button btn btn-primary btn-lg btn-block mb-3');
+        </script>
+  {% endif %}    
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
